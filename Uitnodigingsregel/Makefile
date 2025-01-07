@@ -10,6 +10,11 @@ PYTHON_INTERPRETER = python
 # COMMANDS                                                                      #
 #################################################################################
 
+## Quarto 
+render-notebooks:
+    quarto render Uitnodigingsregel/notebooks
+
+make render-notebooks
 
 ## Install Python Dependencies
 .PHONY: requirements
