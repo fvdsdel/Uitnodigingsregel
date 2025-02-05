@@ -1,32 +1,34 @@
 from pathlib import Path
 
-from dotenv import load_dotenv
-from loguru import logger
-
-# Load environment variables from .env file if it exists
-load_dotenv()
-
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
-logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")
+DATA_DIR = PROJ_ROOT/'data'
+RAW_DATA_DIR = PROJ_ROOT/DATA_DIR/'raw'
+INTERIM_DATA_DIR = PROJ_ROOT/DATA_DIR/'interim'
+PROCESSED_DATA_DIR = PROJ_ROOT/DATA_DIR/'processed'
+MODELS_DIR = PROJ_ROOT/'models'
+REPORTS_DIR = PROJ_ROOT/'reports'
+FIGURES_DIR = PROJ_ROOT/REPORTS_DIR/'figures'
 
-DATA_DIR = PROJ_ROOT / "data"
-RAW_DATA_DIR = DATA_DIR / "raw"
-INTERIM_DATA_DIR = DATA_DIR / "interim"
-PROCESSED_DATA_DIR = DATA_DIR / "processed"
-EXTERNAL_DATA_DIR = DATA_DIR / "external"
+# Define paths for datasets
+user_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'train.csv'
+user_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'pred.csv'
+synth_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_train.csv'
+synth_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_pred.csv'
 
-MODELS_DIR = PROJ_ROOT / "models"
 
-REPORTS_DIR = PROJ_ROOT / "reports"
-FIGURES_DIR = REPORTS_DIR / "figures"
+# Define other constants
+RANDOM_SEED = 42
+TEST_SIZE = 0.2
 
-# If tqdm is installed, configure loguru with tqdm.write
-# https://github.com/Delgan/loguru/issues/135
-try:
-    from tqdm import tqdm
+rf_parameters = {
+    'bootstrap': [True, False],
+    'max_depth': [2, 3, 4],
+    'max_features': [3, 4, 5],
+    'min_samples_leaf': [3, 4, 5],
+    'min_samples_split': [2, 3, 5],
+    'n_estimators': [100, 200, 300]}
 
-    logger.remove(0)
-    logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True)
-except ModuleNotFoundError:
-    pass
+lasso_parameters = {'alpha': [0.0001, 0.005, 0.02, 0.1, 1, 2]}
+
+svm_parameters = {'C': [0.1, 1, 10, 100], 'gamma': [1, 0.1, 0.01, 0.001]}

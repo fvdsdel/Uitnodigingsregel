@@ -1,29 +1,26 @@
-from pathlib import Path
-
-import typer
-from loguru import logger
-from tqdm import tqdm
-
-from Module.config import PROCESSED_DATA_DIR
-
-app = typer.Typer()
+from sklearn.preprocessing import MinMaxScaler
+import os
+import pandas as pd
+from module.config import *
 
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    input_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
-    output_path: Path = PROCESSED_DATA_DIR / "features.csv",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Generating features from dataset...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Features generation complete.")
-    # -----------------------------------------
+if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
+    train_df = pd.read_csv(user_data_dir_train, sep = '\t')
+    pred_df = pd.read_csv(user_data_dir_pred, sep = '\t')
+else:
+    train_df = pd.read_csv(synth_data_dir_train, sep = '\t')
+    pred_df = pd.read_csv(synth_data_dir_pred, sep = '\t')
 
+## Add min/max scaler for LASSO regression
+def standardize_min_max (dataset_train, dataset_pred):
+    train_scaled_data = MinMaxScaler().fit_transform(dataset_train)
+    pred_scaled_data = MinMaxScaler().fit_transform(dataset_pred)
+    return train_scaled_data, pred_scaled_data
 
-if __name__ == "__main__":
-    app()
+train_df_scaled, pred_df_scaled = standardize_min_max(train_df, pred_df)
+
+# Output currenctly are numpy arrays, change to be able to save 
+
+## Store processed dataset in Uitnodigingsregel/data/interim/
+# train_df_scaled.to_csv('data/interim/train_scaled.csv', sep='\t', index=False) 
+# pred_df_scaled.to_csv('data/interim/pred_scaled.csv', sep='\t', index=False) 

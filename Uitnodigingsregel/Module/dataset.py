@@ -1,3 +1,5 @@
+'''
+
 from pathlib import Path
 
 import typer
@@ -27,3 +29,5 @@ def main(
 
 if __name__ == "__main__":
     app()
+'''
+## Add preprocessing, e.g. transform NA values to mean 
