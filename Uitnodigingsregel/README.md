@@ -20,6 +20,7 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
+# Student dropout model
 
 ## Project Organization
 
@@ -69,9 +70,6 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
     │
     └── plots.py                <- Code to create visualizations
 ```
-
-# Student dropout model
-
 
 ## Installation
 
