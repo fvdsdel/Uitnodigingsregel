@@ -8,6 +8,7 @@ vroegtijdig te signaleren. Met behulp van studiedata en machine learning-modelle
 Deze methode biedt SLB’ers en mentoren een signaleringssysteem om uitvalpreventie en -interventies effectiever in te zetten.
 
 De methodiek genereert een geordende lijst van studenten op basis van hun uitvalkans. Zie een concreet voorbeeld met synthetische data bij ROC Mondriaan.
+
 <img src="references/Afbeelding1.png" width="400">
 
 
