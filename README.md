@@ -1,6 +1,3 @@
-
-`uv run --with jupyter jupyter lab`
-
 Studenten uitval voorspellen
 
 # Waarom de Uitnodigingsregel
@@ -75,7 +72,8 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 ```
 
 ## Installation
-
+https://docs.astral.sh/uv/getting-started/installation/#standalone-installer
+`uv run --with jupyter jupyter lab`
 ## Use of program
 --------
 
