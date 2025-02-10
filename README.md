@@ -1,3 +1,6 @@
+
+`uv run --with jupyter jupyter lab`
+
 Studenten uitval voorspellen
 
 # Waarom de Uitnodigingsregel
@@ -53,9 +56,9 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 │
 ├── setup.cfg          <- Configuration file for flake8
 │
-└── Module   <- Source code for use in this project.
+└── module   <- Source code for use in this project.
     │
-    ├── __init__.py             <- Makes Module a Python module
+    ├── __init__.py             <- Makes module a Python module
     │
     ├── config.py               <- Store useful variables and configuration
     │
