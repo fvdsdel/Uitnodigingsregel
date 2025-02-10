@@ -34,14 +34,14 @@ clean:
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	flake8 Module
-	isort --check --diff --profile black Module
-	black --check --config pyproject.toml Module
+	flake8 module
+	isort --check --diff --profile black module
+	black --check --config pyproject.toml module
 
 ## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml Module
+	black --config pyproject.toml module
 
 
 
@@ -64,7 +64,7 @@ create_environment:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) Module/dataset.py
+	$(PYTHON_INTERPRETER) module/dataset.py
 
 
 #################################################################################
@@ -115,14 +115,14 @@ clean:
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	flake8 Module
-	isort --check --diff --profile black Module
-	black --check --config pyproject.toml Module
+	flake8 module
+	isort --check --diff --profile black module
+	black --check --config pyproject.toml module
 
 ## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml Module
+	black --config pyproject.toml module
 
 
 
@@ -145,7 +145,7 @@ create_environment:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) Module/dataset.py
+	$(PYTHON_INTERPRETER) module/dataset.py
 
 
 #################################################################################
