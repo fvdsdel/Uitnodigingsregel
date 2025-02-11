@@ -28,12 +28,17 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 ├── LICENSE            <- Open-source license
 ├── Makefile           <- Makefile with convenience commands
 ├── README.md          <- The top-level README
+├── main.py            <- Runs the Uitnodigingsregel and generates predictions
+├── main.ipnyb         <- Runs the Uitnodigingsregel and generates predictions in a Jupyter Notebook.
 ├── data
 │   ├── external       <- Data from third party sources.
 │   ├── interim        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
 │   └── raw            <- The original, immutable data dump.
 │       └── user_data  <- Original data from user.
+|
+├── models             <- Trained and serialized models, model predictions, or model summaries
+│   └── predictions    <- Output files
 |
 ├── notebooks          <- Quarto files which 1) define required data, 2) validate data quality
 │
@@ -44,9 +49,7 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
 │
-├── requirements.txt   <- The requirements file for reproducing the analysis environment
-│
-└── module   <- Source code for use in this project.
+└── module             <- Source code for use in this project.
     │
     ├── __init__.py             <- Makes module a Python module
     │
@@ -63,11 +66,59 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
     │
     └── plots.py                <- Code to create visualizations
 ```
+## Prerequisites
+If you do not have a Python environment set up, follow these steps:
+1. Install uv on your system:
 
-## Installation
-https://docs.astral.sh/uv/getting-started/installation/#standalone-installer
+Please refer to the official installation guide of [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
+2. Clone the repository:
+
+```
+git clone https://github.com/cedanl/Uitnodigingsregel.git
+
+cd Uitnodigingsregel
+
+```
+
+3. Run uv:
+
+```
 `uv run --with jupyter jupyter lab`
+```
+
+
 ## Use of program
+You can run the program using either the Python script (main.py) or the Jupyter Notebook (main.ipynb) in case of uv.
+
+
+### Run the program
+• Incase of uv or Jupyter notebook: 
+Run all cells to execute the program.
+
+• Run with Python
+```
+python main.py
+```
+This executes the program and generates output files.
+
+
+### Output files
+After execution, the generated prediction files will be saved in:
+
+```
+models/predictions/
+```
+
+
+## Contributors
+
+Thank you to all the people who have already contributed to Uitnodigingsregel[[contributors](https://github.com/cedanl/Uitnodigingsregel/graphs/contributors)].
+
+Special thanks to @[MondriaanBI](https://github.com/MondriaanBI) who started the project.
+
+
+[![](https://github.com/tin900.png?size=50)](https://github.com/tin900)
+[![](https://github.com/tin900.png?size=50)](https://github.com/MondriaanBI)
 --------
 
