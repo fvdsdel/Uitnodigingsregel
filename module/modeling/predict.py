@@ -1,25 +1,56 @@
 import pandas as pd
-from pathlib import Path
 import joblib
-import os
 from module.config import *
 
 best_rf_model = joblib.load('models/random_forest_regressor.joblib')
+best_lasso_model = joblib.load('models/lasso_regression.joblib')
+best_svm_model = joblib.load('models/support_vector_machine.joblib')
 
 # Load Random Forest Regressor model for predictions
-def randomforestregressormodel_pred (pred_df, random_state = RANDOM_SEED):
-    X_pred = pred_df.values 
+def randomforestregressormodel_pred (pred_df, random_state = random_seed):
+    X_pred = pred_df.drop("Dropout", axis=1).values 
     X_pred_studentnumber = pred_df[['Studentnummer']]
-    # Add columns for specific Power-BI output
+    
     yhat2 = best_rf_model.predict(X_pred)
-    pred_data0 = pd.DataFrame({"yhat2": yhat2})
+    pred_data0 = pd.DataFrame({'voorspelling': yhat2})
     pred_data = pd.concat([pred_data0, X_pred_studentnumber],axis=1).reindex(pred_data0.index)
     pred_data.rename(columns={0: 'StudentNr'}, inplace=True)
     
     # Sort results
-    pred_data['ranking'] = pred_data['yhat2'].rank(method = 'dense', ascending=False)
-    pred_data = pred_data.sort_values(by=['yhat2'], ascending=False).reset_index(drop=True)
+    pred_data['ranking'] = pred_data['voorspelling'].rank(method = 'dense', ascending=False)
+    pred_data = pred_data.sort_values(by=['voorspelling'], ascending=False).reset_index(drop=True)
     student_ranked_data = pd.DataFrame(data = pred_data)
-    student_ranked_data = student_ranked_data.rename({'yhat2': 'voorspelling'}, axis=1)
+    student_ranked_data_ordered = student_ranked_data[['ranking', 'Studentnummer', 'voorspelling']]
+    return student_ranked_data_ordered
+
+# Lasso regression model for predicitng
+def lassoregressionmodel_pred (pred_df_sdd, dataset_pred, random_state = random_seed):
+    X_pred = pred_df_sdd.drop("Dropout", axis=1).values 
+    X_pred_studentnumber = dataset_pred[['Studentnummer']]
+    
+    yhat2 = best_lasso_model.predict(X_pred)
+    pred_data0 = pd.DataFrame({'voorspelling': yhat2})
+    pred_data = pd.concat([pred_data0, X_pred_studentnumber], axis= 1).reindex(pred_data0.index)
+
+    # Sort results
+    pred_data['ranking'] = pred_data['voorspelling'].rank(method = 'dense', ascending=False)
+    pred_data = pred_data.sort_values(by=['voorspelling'], ascending=False).reset_index(drop=True)
+    student_ranked_data = pd.DataFrame(data = pred_data)
+    student_ranked_data_ordered = student_ranked_data[['ranking', 'Studentnummer', 'voorspelling']]
+    return student_ranked_data_ordered
+
+# Support Vector Machines for predicting
+def supportvectormachinemodel_pred (pred_df):
+    X_pred = pred_df.drop('Dropout', axis=1).values  
+    X_pred_studentnumber = pred_df[['Studentnummer']]
+    yhat2 = best_svm_model.predict_proba(X_pred)
+    yhat2_uitval = yhat2[:, 1]
+    pred_data0 = pd.DataFrame({'voorspelling': yhat2_uitval})
+    pred_data = pd.concat([pred_data0, X_pred_studentnumber], axis=1).reindex(pred_data0.index)
+
+    # Sort results
+    pred_data['ranking'] = pred_data['voorspelling'].rank(method = 'dense', ascending=False)
+    pred_data = pred_data.sort_values(by=['voorspelling'], ascending=False).reset_index(drop=True)
+    student_ranked_data = pd.DataFrame(data = pred_data)
     student_ranked_data_ordered = student_ranked_data[['ranking', 'Studentnummer', 'voorspelling']]
     return student_ranked_data_ordered
