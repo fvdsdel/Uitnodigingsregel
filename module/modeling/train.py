@@ -20,8 +20,9 @@ def randomforestregressormodel_train(dataset_train):
     joblib.dump(best_rf_model, 'models/random_forest_regressor.joblib')
     return best_rf_model
 
+
 def lassoregressionmodel_train (dataset_train_sdd): 
-    X = dataset_train_sdd.drop("Dropout", axis=1)
+    X = dataset_train_sdd.drop("Dropout", axis=1).values
     y = dataset_train_sdd.Dropout.values
     lasso_model = Lasso(random_state = random_seed)
     param = {'alpha':alpha_range}
@@ -35,6 +36,7 @@ def lassoregressionmodel_train (dataset_train_sdd):
     
     joblib.dump(best_lasso_model, 'models/lasso_regression.joblib')
     return best_lasso_model
+
 
 def supportvectormachinemodel_train(dataset_train):
     X = dataset_train.drop("Dropout", axis=1).values
