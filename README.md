@@ -118,6 +118,6 @@ Special thanks to @[MondriaanBI](https://github.com/MondriaanBI) who started the
 
 
 [![](https://github.com/tin900.png?size=50)](https://github.com/tin900)
-[![](https://github.com/MondriaanBI).png?size=50)](https://github.com/MondriaanBI)
+[![](https://github.com/MondriaanBI.png?size=50)](https://github.com/MondriaanBI)
 --------
 
