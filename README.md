@@ -35,12 +35,7 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 │   └── raw            <- The original, immutable data dump.
 │       └── user_data  <- Original data from user.
 |
-├── docs               <- A default mkdocs project
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
 ├── notebooks          <- Quarto files which 1) define required data, 2) validate data quality
-│                         
 │
 ├── pyproject.toml     <- Project configuration file 
 │
@@ -50,8 +45,6 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 │   └── figures        <- Generated graphics and figures to be used in reporting
 │
 ├── requirements.txt   <- The requirements file for reproducing the analysis environment
-│
-├── setup.cfg          <- Configuration file for flake8
 │
 └── module   <- Source code for use in this project.
     │
@@ -73,6 +66,7 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 
 ## Installation
 https://docs.astral.sh/uv/getting-started/installation/#standalone-installer
+
 `uv run --with jupyter jupyter lab`
 ## Use of program
 --------
