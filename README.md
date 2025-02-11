@@ -120,5 +120,9 @@ Special thanks to @[MondriaanBI](https://github.com/MondriaanBI) who started the
 [![](https://github.com/tin900.png?size=50)](https://github.com/tin900)
 [![](https://github.com/MondriaanBI.png?size=50)](https://github.com/MondriaanBI)
 
+
+## Credits
+This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [enningb/cookiecutter-pypackage](https://github.com/enningb/cookiecutter-pypackage) project template.
+
 --------
 
