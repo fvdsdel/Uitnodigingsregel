@@ -1,26 +1,15 @@
 from sklearn.preprocessing import MinMaxScaler
-import os
 import pandas as pd
 from module.config import *
 
-
-if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
-    train_df = pd.read_csv(user_data_dir_train, sep = '\t')
-    pred_df = pd.read_csv(user_data_dir_pred, sep = '\t')
-else:
-    train_df = pd.read_csv(synth_data_dir_train, sep = '\t')
-    pred_df = pd.read_csv(synth_data_dir_pred, sep = '\t')
-
-## Add min/max scaler for LASSO regression
-def standardize_min_max (dataset_train, dataset_pred):
+### Use min/max scaler for LASSO regression and save tbe datasets in the data/interim folder
+def standardize_dataset (dataset_train, dataset_pred):
+    column_names_train = dataset_train.columns.tolist()
+    column_names_pred = dataset_pred.columns.tolist()
     train_scaled_data = MinMaxScaler().fit_transform(dataset_train)
     pred_scaled_data = MinMaxScaler().fit_transform(dataset_pred)
-    return train_scaled_data, pred_scaled_data
-
-train_df_scaled, pred_df_scaled = standardize_min_max(train_df, pred_df)
-
-# Output currenctly are numpy arrays, change to be able to save 
-
-## Store processed dataset in Uitnodigingsregel/data/interim/
-# train_df_scaled.to_csv('data/interim/train_scaled.csv', sep='\t', index=False) 
-# pred_df_scaled.to_csv('data/interim/pred_scaled.csv', sep='\t', index=False) 
+    train_df_scaled1 = pd.DataFrame(train_scaled_data, columns=column_names_train)
+    pred_df_scaled1 = pd.DataFrame(pred_scaled_data, columns=column_names_pred)
+    train_df_scaled1.to_csv('data/interim/train_data_standardized.csv', sep='\t', index=False) 
+    pred_df_scaled1.to_csv('data/interim/pred_data_standardized.csv', sep='\t', index=False) 
+    return 
