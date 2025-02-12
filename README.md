@@ -69,8 +69,12 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 ## Prerequisites
 If you do not have a Python environment set up, follow these steps:
 1. Install uv on your system:
-
-Please refer to the official installation guide of [uv](https://docs.astral.sh/uv/getting-started/installation/)
+• For Widows
+Copy line below in Windows PowerShell
+```
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+Please refer to the official installation guide of [uv](https://docs.astral.sh/uv/getting-started/installation/) for other operating systems and more detailed information.
 
 2. Clone the repository:
 
@@ -83,7 +87,7 @@ cd Uitnodigingsregel
 3. Run uv:
 
 ```
-`uv run --with jupyter jupyter lab`
+uv run --with jupyter jupyter lab
 ```
 
 
@@ -92,7 +96,7 @@ You can run the program using either the Python script (main.py) or the Jupyter 
 
 
 ### Run the program
-• Incase of uv or Jupyter notebook: 
+• Incase you use uv or Jupyter notebook: 
 Run all cells to execute the program.
 
 • Run with Python
@@ -111,11 +115,7 @@ models/predictions/
 
 
 ## Contributors
-
 Thank you to all the people who have already contributed to Uitnodigingsregel[[contributors](https://github.com/cedanl/Uitnodigingsregel/graphs/contributors)].
-
-Special thanks to @[MondriaanBI](https://github.com/MondriaanBI) who started the project.
-
 
 [![](https://github.com/tin900.png?size=50)](https://github.com/tin900)
 [![](https://github.com/MondriaanBI.png?size=50)](https://github.com/MondriaanBI)
