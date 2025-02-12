@@ -69,7 +69,9 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 ## Prerequisites
 If you do not have a Python environment set up, follow these steps:
 1. Install uv on your system:
+
 • For Widows
+
 Copy line below in Windows PowerShell
 ```
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
@@ -96,7 +98,8 @@ You can run the program using either the Python script (main.py) or the Jupyter 
 
 
 ### Run the program
-• Incase you use uv or Jupyter notebook: 
+• Incase you use uv or Jupyter notebook:
+
 Run all cells to execute the program.
 
 • Run with Python
