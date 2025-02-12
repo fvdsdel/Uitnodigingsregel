@@ -70,7 +70,7 @@ Wil je de Uitnodigingsregel toepassen binnen jouw onderwijsinstelling? Houd dan 
 If you do not have a Python environment set up, follow these steps:
 1. Install uv on your system:
 
-• For Widows
+• For Windows
 
 Copy line below in Windows PowerShell
 ```
