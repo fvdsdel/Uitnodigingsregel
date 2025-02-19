@@ -1,6 +1,10 @@
 from pathlib import Path
 import numpy as np
 
+# To run a new GridsearchCV, change the value to True, otherwise it should stay False. A new Gridsearch can take a long time to run on slower devices
+# depending on the size of the data 
+run_grid_search = False
+
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJ_ROOT/'data'
@@ -9,9 +13,6 @@ INTERIM_DATA_DIR = PROJ_ROOT/DATA_DIR/'interim'
 PROCESSED_DATA_DIR = PROJ_ROOT/DATA_DIR/'processed'
 EXTERNAL_DATA_DIR = PROJ_ROOT/DATA_DIR/'external'
 MODELS_DIR = PROJ_ROOT/'models'
-
-#REPORTS_DIR = PROJ_ROOT/'reports'
-#FIGURES_DIR = PROJ_ROOT/REPORTS_DIR/'figures'
 
 # Paths for datasets
 user_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'train.csv'
@@ -27,6 +28,7 @@ dropout_column = 'Dropout'
 # Define constants for RF, lasso and SVM
 random_seed = 42
 
+# Parameters for the Gridsearches of the Random Forest, Lasso regression and the Support Vector Machine models
 rf_parameters = {
     'bootstrap': [True, False],
     'max_depth': [2, 3, 4],
@@ -38,6 +40,3 @@ rf_parameters = {
 alpha_range = np.arange(0.01, 2, 0.01)
 
 svm_parameters = {'C': [0.1, 1, 10, 100, 1000], 'gamma': [0.0001, 0.001, 0.01, 0.1, 1], 'kernel': ['rbf']}
-
-#To run a new GridsearchCV, change the value to True, otherwise leave it on False. A new Gridsearch can take around 30 minutes on slower devices 
-run_grid_search = True
