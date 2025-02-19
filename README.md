@@ -79,7 +79,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 Please refer to the official installation guide of [uv](https://docs.astral.sh/uv/getting-started/installation/) for other operating systems and more detailed information.
 
 2. Clone the repository:
-
+Download git if necessary: https://git-scm.com/downloads
 ```
 git clone https://github.com/cedanl/Uitnodigingsregel.git
 
@@ -98,23 +98,12 @@ You can run the program using either the Python script (main.py) or the Jupyter 
 
 
 ### Run the program
-• Incase you use uv or Jupyter notebook:
-
-Run all cells to execute the program.
-
-• Run with Python
-```
-python main.py
-```
-This executes the program and generates output files.
+Open main.ipynb and run all cells to execute the program to generate ouput files.
 
 
 ### Output files
 After execution, the generated prediction files will be saved in:
-
-```
 models/predictions/
-```
 
 
 ## Contributors
@@ -125,7 +114,7 @@ Thank you to all the people who have already contributed to Uitnodigingsregel[[c
 
 
 ## Credits
-This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [enningb/cookiecutter-pypackage](https://github.com/enningb/cookiecutter-pypackage) project template.
+This product was created with [Cookiecutter Data Science](https://github.com/drivendataorg/cookiecutter-data-science) project template.
 
 --------
 
