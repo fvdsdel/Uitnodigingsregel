@@ -7,6 +7,7 @@ DATA_DIR = PROJ_ROOT/'data'
 RAW_DATA_DIR = PROJ_ROOT/DATA_DIR/'raw'
 INTERIM_DATA_DIR = PROJ_ROOT/DATA_DIR/'interim'
 PROCESSED_DATA_DIR = PROJ_ROOT/DATA_DIR/'processed'
+EXTERNAL_DATA_DIR = PROJ_ROOT/DATA_DIR/'external'
 MODELS_DIR = PROJ_ROOT/'models'
 
 #REPORTS_DIR = PROJ_ROOT/'reports'
@@ -36,4 +37,7 @@ rf_parameters = {
 
 alpha_range = np.arange(0.01, 2, 0.01)
 
-svm_parameters = {'C': [0.1, 1, 10, 100, 1000], 'gamma': [1, 0.1, 0.01, 0.001, 0.0001], 'kernel': ['rbf']}
+svm_parameters = {'C': [0.1, 1, 10, 100, 1000], 'gamma': [0.0001, 0.001, 0.01, 0.1, 1], 'kernel': ['rbf']}
+
+#To run a new GridsearchCV, change the value to True, otherwise leave it on False. A new Gridsearch can take around 30 minutes on slower devices 
+run_grid_search = True
