@@ -79,6 +79,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 Please refer to the official installation guide of [uv](https://docs.astral.sh/uv/getting-started/installation/) for other operating systems and more detailed information.
 
 2. Clone the repository:
+
 Download git if necessary: https://git-scm.com/downloads
 ```
 git clone https://github.com/cedanl/Uitnodigingsregel.git
