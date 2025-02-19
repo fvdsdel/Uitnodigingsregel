@@ -16,27 +16,31 @@ else:
     train_df = pd.read_csv(synth_data_dir_train, sep = '\t')
     pred_df = pd.read_csv(synth_data_dir_pred, sep = '\t')
 
+# Data cleaning: drop rows that are duplicate and change any NA values to the average value of the column it's in. 
+cleaned_train = basic_cleaning (train_df)
+cleaned_pred = basic_cleaning (pred_df)
+
 # Use the function standardize_min_max to standardize the train and pred datasets using a min max scaler and save them as .csv files in the folder data/interim. These datasets can be used for the lasso regression model, because reggression is sensitive to scaling 
-standardize_dataset (train_df, pred_df)
+standardize_dataset (cleaned_train, cleaned_pred)
 
 # Load the standardized datasets
 train_df_sdd = pd.read_csv(standardized_data_train, sep = '\t')
 pred_df_sdd = pd.read_csv(standardized_data_pred, sep = '\t')
 
 # Run the models with GridsearchCV for optimization and save the fitted models in the folder '/models/'
-best_rf_model = randomforestregressormodel_train (train_df)
-best_lasso = lassoregressionmodel_train (train_df_sdd)
-best_svm_model = supportvectormachinemodel_train (train_df)
+best_rf_model = randomforestregressormodel_train (cleaned_train)
+best_lasso_model = lassoregressionmodel_train (train_df_sdd)
+best_svm_model = supportvectormachinemodel_train (cleaned_train)
 
 # Import code that loads the trained models and that can predict on the dataset
 from module.modeling.predict import *
 
 # Use the loaded models to predict on the dataset
-ranked_students_rf = randomforestregressormodel_pred (pred_df)
-ranked_students_lasso = lassoregressionmodel_pred(pred_df_sdd)
-ranked_students_svm = supportvectormachinemodel_pred(pred_df)
+ranked_students_rf = randomforestregressormodel_pred (cleaned_pred)
+ranked_students_lasso = lassoregressionmodel_pred(pred_df_sdd, cleaned_pred)
+ranked_students_svm = supportvectormachinemodel_pred(cleaned_pred)
 
-# Save results as excel files
+# Save results as excel file
 writer = pd.ExcelWriter('data/processed/ranked_students.xlsx', engine='xlsxwriter')
 ranked_students_lasso.to_excel(writer, sheet_name='Lasso', startrow=0, startcol=0, index=False)
 ranked_students_rf.to_excel(writer, sheet_name='Random Forest', startrow=0, startcol=0, index=False)
