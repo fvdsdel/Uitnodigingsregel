@@ -27,10 +27,15 @@ standardize_dataset (cleaned_train, cleaned_pred)
 train_df_sdd = pd.read_csv(standardized_data_train, sep = '\t')
 pred_df_sdd = pd.read_csv(standardized_data_pred, sep = '\t')
 
-# Run the models with GridsearchCV for optimization and save the fitted models in the folder '/models/'
-best_rf_model = randomforestregressormodel_train (cleaned_train)
-best_lasso_model = lassoregressionmodel_train (train_df_sdd)
-best_svm_model = supportvectormachinemodel_train (cleaned_train)
+# Code checks if run_grid_search = True or False in config.py file. If using your own datasets, change run_grid_search in the config.py file to True 
+# so the models are trained on your own data. 
+if run_grid_search == True:
+    best_rf_model = randomforestregressormodel_train(cleaned_train)
+    best_lasso_model = lassoregressionmodel_train(train_df_sdd)
+    best_svm_model = supportvectormachinemodel_train(cleaned_train)
+else:
+    print("Gridsearch is False in the config.py file, proceeding with the pre-trained models")
+# Folds = number of train/test splits of the dataset, candidates = models with different parameters and fits = folds * candidates
 
 # Import code that loads the trained models and that can predict on the dataset
 from module.modeling.predict import *
