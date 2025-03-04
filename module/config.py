@@ -3,7 +3,7 @@ import numpy as np
 
 # To train the models on your own data, change run_grid_search to = True. Training on your own data can take a long time  
 # depending on the size of the datasets used and the computational power of your device.
-run_grid_search = True
+run_grid_search = False
 
 # Define the column name that contains dropout (uitval) in the datasets and the column that has the student number (studentnummer).
 dropout_column = 'Dropout'
