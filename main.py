@@ -52,10 +52,12 @@ if save_method == 'xlsx':
     ranked_students_lasso.to_excel(writer, sheet_name='Lasso', startrow=0, startcol=0, index=False)
     ranked_students_svm.to_excel(writer, sheet_name='Support Vector Machine', startrow=0, startcol=0, index=False)
     writer.close()
+    print ('Output file saved as .xlsx')
 elif save_method == 'csv':
     # Save results as CSV files
-    ranked_students_rf.to_csv('ranked_students_rf.csv', sep='\t', index=False)
-    ranked_students_lasso.to_csv('ranked_students_lasso.csv', sep='\t', index=False)
-    ranked_students_svm.to_csv('ranked_students_svm.csv', sep='\t', index=False)
+    ranked_students_rf.to_csv('models/predictions/ranked_students_rf.csv', sep='\t', index=False)
+    ranked_students_lasso.to_csv('models/predictions/ranked_students_lasso.csv', sep='\t', index=False)
+    ranked_students_svm.to_csv('models/predictions/ranked_students_svm.csv', sep='\t', index=False)
+    print ('Output file saved as .csv')
 else:
-    print("Invalid save method. Please choose 'xlsx' or 'csv'.")
+    print('Invalid save method. Please choose "xlsx" or "csv".')
