@@ -7,8 +7,8 @@ from module.config import *
 def convert_categorical_to_dummies(train_dataset, predict_dataset):
     categorical_cols = train_dataset.select_dtypes(include=['category', 'object']).columns
     if len(categorical_cols) > 0:
-        train_dataset = pd.get_dummies(train_dataset, columns=categorical_cols, drop_first=True)
-        predict_dataset = pd.get_dummies(predict_dataset, columns=categorical_cols, drop_first=True) 
+        train_dataset = pd.get_dummies(train_dataset, columns=categorical_cols, drop_first=True, dummy_na=True)
+        predict_dataset = pd.get_dummies(predict_dataset, columns=categorical_cols, drop_first=True, dummy_na=True) 
         train_dataset, predict_dataset = train_dataset.align(predict_dataset, join='outer', axis=1, fill_value=0)   
         dummy_cols = [col for col in train_dataset.columns if any(col.startswith(cat_col) for cat_col in categorical_cols)]
         train_dataset[dummy_cols] = train_dataset[dummy_cols].astype(int)
