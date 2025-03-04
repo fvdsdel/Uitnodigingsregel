@@ -3,10 +3,11 @@ import numpy as np
 
 # To train the models on your own data, change run_grid_search to = True. Training on your own data can take a long time  
 # depending on the size of the datasets used and the computational power of your device.
-run_grid_search = False
+run_grid_search = True
 
-# Define the column name that contains dropout (uitval) in the datasets
+# Define the column name that contains dropout (uitval) in the datasets and the column that has the student number (studentnummer).
 dropout_column = 'Dropout'
+studentnumber_column = 'Studentnummer'
 
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
@@ -20,12 +21,12 @@ MODELS_DIR = PROJ_ROOT/'models'
 # Paths for datasets
 synth_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_train.csv'
 synth_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_pred.csv'
+user_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'train.csv'
+user_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'pred.csv'
 standardized_data_train = PROJ_ROOT/DATA_DIR/'interim'/'train_data_standardized.csv'
 standardized_data_pred = PROJ_ROOT/DATA_DIR/'interim'/'pred_data_standardized.csv'
 processed_data_train = PROJ_ROOT/DATA_DIR/'processed'/'train_processed.csv'
 processed_data_pred = PROJ_ROOT/DATA_DIR/'processed'/'pred_processed.csv'
-user_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'train.csv'
-user_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'pred.csv'
 
 # Define constants for RF, lasso and SVM
 random_seed = 42
