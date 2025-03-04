@@ -1,4 +1,4 @@
-# Import packages 
+
 import pandas as pd
 import os
 
@@ -16,23 +16,22 @@ else:
     train_df = pd.read_csv(synth_data_dir_train, sep = '\t')
     pred_df = pd.read_csv(synth_data_dir_pred, sep = '\t')
 
-# Data cleaning: drop rows that are duplicate and change any NA values to the average value of the column it's in. 
-cleaned_train = basic_cleaning (train_df)
-cleaned_pred = basic_cleaning (pred_df)
+# Basic data cleaning: drop rows that are duplicate and change any NA values to the average value of the column it's in. 
+train_cleaned = basic_cleaning (train_df)
+pred_cleaned = basic_cleaning (pred_df)
+
+# Apply function that changes categorical data into numerical data so it can be used as input for the models 
+train_processed, pred_processed = convert_categorical_to_dummies (train_cleaned, pred_cleaned)
 
 # Use the function standardize_min_max to standardize the train and pred datasets using a min max scaler and save them as .csv files in the folder data/interim. These datasets can be used for the lasso regression model, because reggression is sensitive to scaling 
-standardize_dataset (cleaned_train, cleaned_pred)
-
-# Load the standardized datasets
-train_df_sdd = pd.read_csv(standardized_data_train, sep = '\t')
-pred_df_sdd = pd.read_csv(standardized_data_pred, sep = '\t')
+train_df_sdd, pred_df_sdd = standardize_dataset (train_processed, pred_processed)
 
 # Code checks if run_grid_search = True or False in config.py file. If using your own datasets, change run_grid_search in the config.py file to True 
 # so the models are trained on your own data. 
 if run_grid_search == True:
-    best_rf_model = randomforestregressormodel_train(cleaned_train)
+    best_rf_model = randomforestregressormodel_train(train_processed)
     best_lasso_model = lassoregressionmodel_train(train_df_sdd)
-    best_svm_model = supportvectormachinemodel_train(cleaned_train)
+    best_svm_model = supportvectormachinemodel_train(train_processed)
 else:
     print("Gridsearch is False in the config.py file, proceeding with the pre-trained models")
 # Folds = number of train/test splits of the dataset, candidates = models with different parameters and fits = folds * candidates
@@ -41,9 +40,9 @@ else:
 from module.modeling.predict import *
 
 # Use the loaded models to predict on the dataset
-ranked_students_rf = randomforestregressormodel_pred (cleaned_pred)
-ranked_students_lasso = lassoregressionmodel_pred(pred_df_sdd, cleaned_pred)
-ranked_students_svm = supportvectormachinemodel_pred(cleaned_pred)
+ranked_students_rf = randomforestregressormodel_pred (pred_processed)
+ranked_students_lasso = lassoregressionmodel_pred(pred_df_sdd, pred_processed)
+ranked_students_svm = supportvectormachinemodel_pred(pred_processed)
 
 # Save results as excel file
 writer = pd.ExcelWriter('data/processed/ranked_students.xlsx', engine='xlsxwriter')
