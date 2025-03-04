@@ -1,4 +1,3 @@
-
 import pandas as pd
 import os
 
@@ -12,9 +11,11 @@ from module.features import *
 if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
     train_df = pd.read_csv(user_data_dir_train, sep = '\t')
     pred_df = pd.read_csv(user_data_dir_pred, sep = '\t')
+    print ('User dataset found and loaded')
 else:
     train_df = pd.read_csv(synth_data_dir_train, sep = '\t')
     pred_df = pd.read_csv(synth_data_dir_pred, sep = '\t')
+    print ('Pre-uploaded synthetic dataset found and loaded')
 
 # Basic data cleaning: drop rows that are duplicate and change any NA values to the average value of the column it's in. 
 train_cleaned = basic_cleaning (train_df)
@@ -44,9 +45,17 @@ ranked_students_rf = randomforestregressormodel_pred (pred_processed)
 ranked_students_lasso = lassoregressionmodel_pred(pred_df_sdd, pred_processed)
 ranked_students_svm = supportvectormachinemodel_pred(pred_processed)
 
-# Save results as excel file
-writer = pd.ExcelWriter('data/processed/ranked_students.xlsx', engine='xlsxwriter')
-ranked_students_lasso.to_excel(writer, sheet_name='Lasso', startrow=0, startcol=0, index=False)
-ranked_students_rf.to_excel(writer, sheet_name='Random Forest', startrow=0, startcol=0, index=False)
-ranked_students_svm.to_excel(writer, sheet_name='Support Vector Machine', startrow=0, startcol=0, index=False)
-writer.close()
+if save_method == 'xlsx':
+    # Save results as excel file in the folder predictions. Predictions is in the models folder.
+    writer = pd.ExcelWriter('models/predictions/ranked_students.xlsx', engine='xlsxwriter')
+    ranked_students_rf.to_excel(writer, sheet_name='Random Forest', startrow=0, startcol=0, index=False)
+    ranked_students_lasso.to_excel(writer, sheet_name='Lasso', startrow=0, startcol=0, index=False)
+    ranked_students_svm.to_excel(writer, sheet_name='Support Vector Machine', startrow=0, startcol=0, index=False)
+    writer.close()
+elif save_method == 'csv':
+    # Save results as CSV files
+    ranked_students_rf.to_csv('ranked_students_rf.csv', sep='\t', index=False)
+    ranked_students_lasso.to_csv('ranked_students_lasso.csv', sep='\t', index=False)
+    ranked_students_svm.to_csv('ranked_students_svm.csv', sep='\t', index=False)
+else:
+    print("Invalid save method. Please choose 'xlsx' or 'csv'.")
