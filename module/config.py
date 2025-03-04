@@ -1,9 +1,12 @@
 from pathlib import Path
 import numpy as np
 
-# To run a new GridsearchCV, change the value to True, otherwise it should stay False. A new Gridsearch can take a long time to run on slower devices
-# depending on the size of the data 
+# To train the models on your own data, change run_grid_search to = True. Training on your own data can take a long time  
+# depending on the size of the datasets used and the computational power of your device.
 run_grid_search = False
+
+# Define the column name that contains dropout (uitval) in the datasets
+dropout_column = 'Dropout'
 
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
@@ -21,9 +24,6 @@ synth_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_train.csv'
 synth_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_pred.csv'
 standardized_data_train = PROJ_ROOT/DATA_DIR/'interim'/'train_data_standardized.csv'
 standardized_data_pred = PROJ_ROOT/DATA_DIR/'interim'/'pred_data_standardized.csv'
-
-# Define the column name that contains dropout (uitval) in the datasets
-dropout_column = 'Dropout'
 
 # Define constants for RF, lasso and SVM
 random_seed = 42
