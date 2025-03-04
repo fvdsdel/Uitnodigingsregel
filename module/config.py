@@ -18,12 +18,14 @@ EXTERNAL_DATA_DIR = PROJ_ROOT/DATA_DIR/'external'
 MODELS_DIR = PROJ_ROOT/'models'
 
 # Paths for datasets
-user_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'train.csv'
-user_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'pred.csv'
 synth_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_train.csv'
 synth_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'synth_data_pred.csv'
 standardized_data_train = PROJ_ROOT/DATA_DIR/'interim'/'train_data_standardized.csv'
 standardized_data_pred = PROJ_ROOT/DATA_DIR/'interim'/'pred_data_standardized.csv'
+processed_data_train = PROJ_ROOT/DATA_DIR/'processed'/'train_processed.csv'
+processed_data_pred = PROJ_ROOT/DATA_DIR/'processed'/'pred_processed.csv'
+user_data_dir_train = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'train.csv'
+user_data_dir_pred = PROJ_ROOT/DATA_DIR/'raw'/'user_data'/'pred.csv'
 
 # Define constants for RF, lasso and SVM
 random_seed = 42
