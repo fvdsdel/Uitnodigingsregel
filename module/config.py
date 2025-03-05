@@ -12,6 +12,10 @@ save_method = 'xlsx'
 dropout_column = 'Dropout'
 studentnumber_column = 'Studentnummer' ## Change if needed
 
+# The seperator used in the .csv files. Other often used options are ',' and ';' Check your .csv file to find the correct seperator
+# and adjust here if loading your user data causes an error message. 
+seperator = '\t'
+
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJ_ROOT/'data'
