@@ -40,9 +40,9 @@ def lassoregressionmodel_pred (pred_df_sdd, dataset_pred, random_state = random_
     return student_ranked_data_ordered
 
 # Support Vector Machines for predicting
-def supportvectormachinemodel_pred (pred_df):
-    X_pred = pred_df.drop(dropout_column, axis=1).values  
-    X_pred_studentnumber = pred_df[[studentnumber_column]]
+def supportvectormachinemodel_pred (dataset_train_sdd, dataset_pred, random_state = random_seed):
+    X_pred = dataset_train_sdd.drop(dropout_column, axis=1).values  
+    X_pred_studentnumber = dataset_pred[[studentnumber_column]]
     
     yhat2 = best_svm_model.predict_proba(X_pred)
     yhat2_uitval = yhat2[:, 1]
