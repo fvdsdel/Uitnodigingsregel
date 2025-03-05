@@ -18,13 +18,22 @@ def convert_categorical_to_dummies(train_dataset, predict_dataset):
     return train_dataset, predict_dataset
 
 # Use min/max scaler for LASSO regression and save tbe datasets in the data/interim folder
+### Add min/max scaler for LASSO regression
 def standardize_dataset (dataset_train, dataset_pred):
+    dropout_train = dataset_train[dropout_column]
+    dropout_pred = dataset_pred[dropout_column]
+    dataset_train = dataset_train.drop(columns=[dropout_column])
+    dataset_pred = dataset_pred.drop(columns=[dropout_column])
+    
     column_names_train = dataset_train.columns.tolist()
     column_names_pred = dataset_pred.columns.tolist()
     train_scaled_data = MinMaxScaler().fit_transform(dataset_train)
     pred_scaled_data = MinMaxScaler().fit_transform(dataset_pred)
     train_df_scaled1 = pd.DataFrame(train_scaled_data, columns=column_names_train)
     pred_df_scaled1 = pd.DataFrame(pred_scaled_data, columns=column_names_pred)
+    
+    train_df_scaled1[dropout_column] = dropout_train.values
+    pred_df_scaled1[dropout_column] = dropout_pred.values
     train_df_scaled1.to_csv('data/interim/train_data_standardized.csv', sep='\t', index=False) 
-    pred_df_scaled1.to_csv('data/interim/pred_data_standardized.csv', sep='\t', index=False) 
-    return train_df_scaled1,  pred_df_scaled1
+    pred_df_scaled1.to_csv('data/interim/pred_data_standardized.csv', sep='\t', index=False)
+    return train_df_scaled1, pred_df_scaled1
