@@ -17,12 +17,12 @@ from module.features import *
 
 # Check if train.csv and pred.csv exist in user_data folder, otherwise load synthetic datasests
 if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
-    train_df = pd.read_csv(user_data_dir_train, sep = '\t')
-    pred_df = pd.read_csv(user_data_dir_pred, sep = '\t')
+    train_df = pd.read_csv(user_data_dir_train, sep = seperator)
+    pred_df = pd.read_csv(user_data_dir_pred, sep = seperator)
     print ('User dataset found and loaded')
 else:
-    train_df = pd.read_csv(synth_data_dir_train, sep = '\t')
-    pred_df = pd.read_csv(synth_data_dir_pred, sep = '\t')
+    train_df = pd.read_csv(synth_data_dir_train, sep = seperator)
+    pred_df = pd.read_csv(synth_data_dir_pred, sep = seperator)
     print ('Pre-uploaded synthetic dataset found and loaded')
 
 # Basic data cleaning: drop rows that are duplicate and change any NA values to the average value of the column it's in. 
@@ -69,6 +69,6 @@ elif save_method == 'csv':
     ranked_students_rf.to_csv('models/predictions/ranked_students_rf.csv', sep='\t', index=False)
     ranked_students_lasso.to_csv('models/predictions/ranked_students_lasso.csv', sep='\t', index=False)
     ranked_students_svm.to_csv('models/predictions/ranked_students_svm.csv', sep='\t', index=False)
-    print ('Output file saved as .csv in the /models/predictions/csv_output folder'')
+    print ('Output files saved as .csv in the /models/predictions/csv_output folder')
 else:
     print('Invalid save method. Please choose "xlsx" or "csv".')
