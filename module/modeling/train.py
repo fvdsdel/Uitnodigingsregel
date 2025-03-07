@@ -41,11 +41,11 @@ def lassoregressionmodel_train (dataset_train_sdd):
     return best_lasso_model
 
 # Support vector machine model for training 
-def supportvectormachinemodel_train(dataset_train):
-    X = dataset_train.drop(dropout_column, axis=1).values
-    y = dataset_train.Dropout.values
+def supportvectormachinemodel_train(dataset_train_sdd):
+    X = dataset_train_sdd.drop(dropout_column, axis=1).values
+    y = dataset_train_sdd.Dropout.values
     
-    # Hyperparameter tuning using gridsearchCV    # Hyperparameter tuning using gridsearchCV
+    # Hyperparameter tuning using gridsearchCV 
     svm_gridsearch = GridSearchCV(SVC(random_state=random_seed, probability = True), svm_parameters, refit = False, n_jobs = -1, verbose = 2) 
     svm_gridsearch.fit(X, y)
     best_params = svm_gridsearch.best_params_
