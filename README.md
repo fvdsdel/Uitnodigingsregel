@@ -89,10 +89,16 @@ cd Uitnodigingsregel
 
 3. Run uv:
 
+**Locally**
+
 ```
 uv run --with jupyter jupyter lab
 ```
 
+**In Codespaces**
+```
+uv run --with jupyter jupyter lab --LabApp.token='' --allow-root
+```
 
 ## Use of program
 You can run the program using either the Python script (main.py) or the Jupyter Notebook (main.ipynb) in case of uv.
