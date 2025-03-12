@@ -4,7 +4,7 @@ from module.config import *
 
 # Function that checks the train and the predict dataset for categorical columns. It then creates a new column for each category and drops the first column to prevent multicolinearity. 
 # Then the categorized train and predict dataset are aligned to account for all the categories (if the train or predict dataset includes categories not present in the other) 
-def convert_categorical_to_dummies(train_dataset, predict_dataset):
+def convert_categorical_to_dummies(train_dataset:pd.DataFrame, predict_dataset:pd.DataFrame):
     categorical_cols = train_dataset.select_dtypes(include=['category', 'object']).columns
     if len(categorical_cols) > 0:
         train_dataset = pd.get_dummies(train_dataset, columns=categorical_cols, drop_first=True, dummy_na=True)
@@ -19,21 +19,24 @@ def convert_categorical_to_dummies(train_dataset, predict_dataset):
 
 # Use min/max scaler for LASSO regression and save tbe datasets in the data/interim folder
 ### Add min/max scaler for LASSO regression
-def standardize_dataset (dataset_train, dataset_pred):
-    dropout_train = dataset_train[dropout_column]
-    dropout_pred = dataset_pred[dropout_column]
-    dataset_train = dataset_train.drop(columns=[dropout_column])
-    dataset_pred = dataset_pred.drop(columns=[dropout_column])
-    
-    column_names_train = dataset_train.columns.tolist()
-    column_names_pred = dataset_pred.columns.tolist()
-    train_scaled_data = MinMaxScaler().fit_transform(dataset_train)
-    pred_scaled_data = MinMaxScaler().fit_transform(dataset_pred)
-    train_df_scaled1 = pd.DataFrame(train_scaled_data, columns=column_names_train)
-    pred_df_scaled1 = pd.DataFrame(pred_scaled_data, columns=column_names_pred)
-    
-    train_df_scaled1[dropout_column] = dropout_train.values
-    pred_df_scaled1[dropout_column] = dropout_pred.values
-    train_df_scaled1.to_csv('data/interim/train_data_standardized.csv', sep='\t', index=False) 
-    pred_df_scaled1.to_csv('data/interim/pred_data_standardized.csv', sep='\t', index=False)
-    return train_df_scaled1, pred_df_scaled1
+def _standardize_ds(df:pd.DataFrame):
+    """Use minmax scaler to standardize the dataset
+    Args:
+        df (pd.DataFrame): The dataset to be standardized
+        Returns:
+        pd.DataFrame: The standardized dataset
+    """
+    dropout = df[dropout_column]
+    df = df.drop(columns=[dropout_column])
+    column_names = df.columns.tolist()
+    scaled_data = MinMaxScaler().fit_transform(df)
+    df_scaled = pd.DataFrame(scaled_data, columns=column_names)
+    df_scaled[dropout_column] = dropout.values
+    return df_scaled
+
+def standardize_dataset( dataset_train:pd.DataFrame, dataset_pred:pd.DataFrame):
+    train_df_scaled = _standardize_ds(dataset_train)
+    pred_df_scaled = _standardize_ds(dataset_pred)
+    train_df_scaled.to_csv('data/interim/train_data_standardized.csv', sep='\t', index=False)
+    pred_df_scaled.to_csv('data/interim/pred_data_standardized.csv', sep='\t', index=False)
+    return train_df_scaled, pred_df_scaled
