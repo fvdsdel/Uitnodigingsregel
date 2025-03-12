@@ -73,15 +73,18 @@ If you do not have a Python environment set up, follow these steps:
 
 • For Windows
 Copy line below in Windows PowerShell
-```
+
+```console
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
+
 Please refer to the official installation guide of [uv](https://docs.astral.sh/uv/getting-started/installation/) for other operating systems and more detailed information.
 
 2. Clone the repository:
 
 Download git if necessary: https://git-scm.com/downloads
-```
+
+```console
 git clone https://github.com/cedanl/Uitnodigingsregel.git
 
 cd Uitnodigingsregel
@@ -91,12 +94,13 @@ cd Uitnodigingsregel
 
 **Locally**
 
-```
+```console
 uv run --with jupyter jupyter lab
 ```
 
 **In Codespaces**
-```
+
+```console
 uv run --with jupyter jupyter lab --LabApp.token='' --allow-root
 ```
 
