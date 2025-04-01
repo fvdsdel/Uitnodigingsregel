@@ -8,7 +8,7 @@ from module.config import *
 # Random Forest Regressor model for training 
 def randomforestregressormodel_train(dataset_train):
     X = dataset_train.drop(dropout_column, axis=1).values
-    y = dataset_train.Dropout.values
+    y = dataset_train[dropout_column].values
     rf = RandomForestRegressor(random_state=random_seed)
     
     # Hyperparameter tuning using gridsearchCV
@@ -25,7 +25,7 @@ def randomforestregressormodel_train(dataset_train):
 # lasso regression model for training 
 def lassoregressionmodel_train (dataset_train_sdd): 
     X = dataset_train_sdd.drop(dropout_column, axis=1).values
-    y = dataset_train_sdd.Dropout.values
+    y = dataset_train_sdd[dropout_column].values
     lasso_model = Lasso(random_state = random_seed)
     param = {'alpha':alpha_range}
     
@@ -43,7 +43,7 @@ def lassoregressionmodel_train (dataset_train_sdd):
 # Support vector machine model for training 
 def supportvectormachinemodel_train(dataset_train_sdd):
     X = dataset_train_sdd.drop(dropout_column, axis=1).values
-    y = dataset_train_sdd.Dropout.values
+    y = dataset_train_sdd[dropout_column].values
     
     # Hyperparameter tuning using gridsearchCV 
     svm_gridsearch = GridSearchCV(SVC(random_state=random_seed, probability = True), svm_parameters, refit = False, n_jobs = -1, verbose = 2) 
