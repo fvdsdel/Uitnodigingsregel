@@ -8,7 +8,10 @@ best_svm_model = joblib.load('models/support_vector_machine.joblib')
 
 # Load Random Forest Regressor model for predictions
 def randomforestregressormodel_pred (pred_df, random_state = random_seed):
-    X_pred = pred_df.drop(dropout_column, axis=1).values 
+    if dropout_column in pred_df.columns:
+        X_pred = pred_df.drop(dropout_column, axis=1).values
+    else:
+        X_pred = pred_df.values
     X_pred_studentnumber = pred_df[[studentnumber_column]]
     
     yhat2 = best_rf_model.predict(X_pred)
@@ -25,7 +28,10 @@ def randomforestregressormodel_pred (pred_df, random_state = random_seed):
 
 # Lasso regression model for predicitng
 def lassoregressionmodel_pred (pred_df_sdd, dataset_pred, random_state = random_seed):
-    X_pred = pred_df_sdd.drop(dropout_column, axis=1).values 
+    if dropout_column in pred_df_sdd.columns:
+        X_pred = pred_df_sdd.drop(dropout_column, axis=1).values
+    else:
+        X_pred = pred_df_sdd.values
     X_pred_studentnumber = dataset_pred[[studentnumber_column]]
     
     yhat2 = best_lasso_model.predict(X_pred)
@@ -40,8 +46,11 @@ def lassoregressionmodel_pred (pred_df_sdd, dataset_pred, random_state = random_
     return student_ranked_data_ordered
 
 # Support Vector Machines for predicting
-def supportvectormachinemodel_pred (dataset_train_sdd, dataset_pred, random_state = random_seed):
-    X_pred = dataset_train_sdd.drop(dropout_column, axis=1).values  
+def supportvectormachinemodel_pred (pred_df_sdd, dataset_pred, random_state = random_seed):
+    if dropout_column in pred_df_sdd.columns:
+        X_pred = pred_df_sdd.drop(dropout_column, axis=1).values
+    else:
+        X_pred = pred_df_sdd.values  
     X_pred_studentnumber = dataset_pred[[studentnumber_column]]
     
     yhat2 = best_svm_model.predict_proba(X_pred)
