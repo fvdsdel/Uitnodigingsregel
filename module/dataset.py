@@ -14,14 +14,4 @@ def remove_single_value_columns(dataset_train, dataset_pred):
     dataset_pred = dataset_pred.drop(columns=single_value_columns, errors='ignore')
     return dataset_train, dataset_pred
 
-# Function that searches for and prints duplicate students
-def show_duplicates_student (dataset_train, dataset_pred):
-    duplicates_train = dataset_train[dataset_train.duplicated(studentnumber_column, keep=False)]
-    print('Students with duplicates in train dataset:')
-    print(duplicates_train)
-    duplicates_pred = dataset_pred[dataset_pred.duplicated(studentnumber_column, keep=False)]
-    print('Students with duplicates in predict dataset:')
-    print(duplicates_pred)
-    return
-
 
