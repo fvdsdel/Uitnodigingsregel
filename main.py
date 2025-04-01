@@ -15,7 +15,10 @@ from module.modeling.train import *
 # and could in theory help with the accuracy of SVM
 from module.features import *
 
-# Check if train.csv and pred.csv exist in user_data folder, otherwise load synthetic datasests
+# Check if train.csv and pred.csv exist in user_data folder, otherwise load synthetic datasests. When using user_data, change the name of the 
+# train dataset to train.csv and the predict dataset to pred.csv 
+# When user data is loaded and an error occurs here, please check if the sep = '\t' needs to be changed to another seperator like ',' or '.'
+# This should be the same as the seperator used in the user .csv file and can needs to be changed in the config.py file.
 if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
     train_df = pd.read_csv(user_data_dir_train, sep = seperator)
     pred_df = pd.read_csv(user_data_dir_pred, sep = seperator)
@@ -29,10 +32,14 @@ else:
 train_cleaned = basic_cleaning (train_df)
 pred_cleaned = basic_cleaning (pred_df)
 
+# Detect if there are columns in which all rows have the same value and delete these columns from the train and predict datasets 
+train_cleaned, pred_cleaned = remove_single_value_columns (train_cleaned, pred_cleaned)
+
 # Apply function that changes categorical data into numerical data so it can be used as input for the models 
 train_processed, pred_processed = convert_categorical_to_dummies (train_cleaned, pred_cleaned)
 
-# Use the function standardize_min_max to standardize the train and pred datasets using a min max scaler and save them as .csv files in the folder data/interim. These datasets can be used for the lasso regression model, because reggression is sensitive to scaling 
+# Use the function standardize_min_max to standardize the train and pred datasets using a min max scaler and save them as .csv files in the folder data/interim 
+# These datasets can be used for the lasso and svm models, because reggression is sensitive to scaling 
 train_df_sdd, pred_df_sdd = standardize_dataset (train_processed, pred_processed)
 
 # Code checks if retrain_models = True or False in config.py file. If using your own datasets, change retrain_models in the config.py file to True, so the models are trained on your own data. 
@@ -43,7 +50,7 @@ if retrain_models == True:
     best_lasso_model = lassoregressionmodel_train(train_df_sdd)
     best_svm_model = supportvectormachinemodel_train(train_df_sdd)
 else:
-    print('retrain_models is False in the config.py file, laoding the the pre-trained models')
+    print('retrain_models is False in the config.py file, loading the pre-trained models')
 
 # Folds = number of train/test splits of the dataset, candidates = models with different parameters and fits = folds * candidates
 
@@ -56,8 +63,8 @@ ranked_students_rf = randomforestregressormodel_pred (pred_processed)
 ranked_students_lasso = lassoregressionmodel_pred(pred_df_sdd, pred_processed)
 ranked_students_svm = supportvectormachinemodel_pred(pred_df_sdd, pred_processed)
 
+# Save the output files as either .xlsx or as three .csv files 
 if save_method == 'xlsx':
-    # Save results as excel file in the folder predictions. Predictions is in the models folder.
     writer = pd.ExcelWriter('models/predictions/ranked_students.xlsx', engine='xlsxwriter')
     ranked_students_rf.to_excel(writer, sheet_name='Random Forest', startrow=0, startcol=0, index=False)
     ranked_students_lasso.to_excel(writer, sheet_name='Lasso', startrow=0, startcol=0, index=False)
@@ -65,7 +72,6 @@ if save_method == 'xlsx':
     writer.close()
     print ('Output file saved as .xlsx in the /models/predictions folder')
 elif save_method == 'csv':
-    # Save results as CSV files
     ranked_students_rf.to_csv('models/predictions/ranked_students_rf.csv', sep='\t', index=False)
     ranked_students_lasso.to_csv('models/predictions/ranked_students_lasso.csv', sep='\t', index=False)
     ranked_students_svm.to_csv('models/predictions/ranked_students_svm.csv', sep='\t', index=False)
