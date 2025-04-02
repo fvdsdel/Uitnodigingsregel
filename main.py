@@ -29,11 +29,11 @@ else:
     print ('Pre-uploaded synthetic dataset found and loaded')
 
 # Basic data cleaning: drop rows that are duplicate and change any NA values to the average value of the column it's in. 
-train_cleaned = basic_cleaning (train_df)
-pred_cleaned = basic_cleaning (pred_df)
+train_basic_cl = basic_cleaning (train_df)
+pred_basic_cl = basic_cleaning (pred_df)
 
 # Detect if there are columns in which all rows have the same value and delete these columns from the train and predict datasets 
-train_cleaned, pred_cleaned = remove_single_value_columns (train_cleaned, pred_cleaned)
+train_cleaned, pred_cleaned = remove_single_value_columns (train_basic_cl, pred_basic_cl)
 
 # Apply function that changes categorical data into numerical data so it can be used as input for the models 
 train_processed, pred_processed = convert_categorical_to_dummies (train_cleaned, pred_cleaned)
