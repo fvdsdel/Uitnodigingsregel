@@ -3,10 +3,9 @@ from sklearn.linear_model import Lasso
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 import joblib
-from module.config import *
 
 # Random Forest Regressor model for training 
-def randomforestregressormodel_train(dataset_train):
+def randomforestregressormodel_train(dataset_train, random_seed, dropout_column, rf_parameters):
     X = dataset_train.drop(dropout_column, axis=1).values
     y = dataset_train[dropout_column].values
     rf = RandomForestRegressor(random_state=random_seed)
@@ -23,7 +22,7 @@ def randomforestregressormodel_train(dataset_train):
     return best_rf_model
 
 # lasso regression model for training 
-def lassoregressionmodel_train (dataset_train_sdd): 
+def lassoregressionmodel_train (dataset_train_sdd, random_seed, dropout_column, alpha_range): 
     X = dataset_train_sdd.drop(dropout_column, axis=1).values
     y = dataset_train_sdd[dropout_column].values
     lasso_model = Lasso(random_state = random_seed)
@@ -41,7 +40,7 @@ def lassoregressionmodel_train (dataset_train_sdd):
     return best_lasso_model
 
 # Support vector machine model for training 
-def supportvectormachinemodel_train(dataset_train_sdd):
+def supportvectormachinemodel_train(dataset_train_sdd, random_seed, dropout_column, svm_parameters):
     X = dataset_train_sdd.drop(dropout_column, axis=1).values
     y = dataset_train_sdd[dropout_column].values
     
