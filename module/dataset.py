@@ -1,4 +1,4 @@
-from module.config import *
+#from module.config import *
 
 # Function that drops duplicate rows and replaces any NA-values with the mean of the column if the column contains numerical data
 def basic_cleaning(dataset):
@@ -13,5 +13,3 @@ def remove_single_value_columns(dataset_train, dataset_pred):
     dataset_train = dataset_train.drop(columns=single_value_columns, errors='ignore')
     dataset_pred = dataset_pred.drop(columns=single_value_columns, errors='ignore')
     return dataset_train, dataset_pred
-
-
