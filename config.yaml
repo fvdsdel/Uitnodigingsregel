@@ -1,7 +1,6 @@
-
 default_settings:
   retrain_models: True
-  separator: "\t"
+  separator: ","
   dropout_column: 'Dropout'
   studentnumber_column: 'Studentnummer'
   save_method: 'xlsx'
