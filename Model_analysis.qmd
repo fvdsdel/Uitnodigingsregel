@@ -120,26 +120,21 @@ def detect_separator(file_path, target_column='Dropout'):
     # Fallback to comma if nothing works
     return ','
 
-# Data loading: use user data if present, otherwise use synthetic data
-if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
-    # Detect separators for user data
+# Data loading: use user data if present, otherwise use synthetic data (training data only)
+if os.path.exists(user_data_dir_train):
+    # Detect separator for user data
     train_sep = detect_separator(user_data_dir_train, dropout_column)
-    pred_sep = detect_separator(user_data_dir_pred, dropout_column)
-    
     train_df = pd.read_csv(user_data_dir_train, sep=train_sep, engine='python')
-    pred_df = pd.read_csv(user_data_dir_pred, sep=pred_sep, engine='python')
     data_type = "instelling"
 else:
-    # Detect separators for synthetic data
+    # Detect separator for synthetic data
     train_sep = detect_separator(synth_data_dir_train, dropout_column)
-    pred_sep = detect_separator(synth_data_dir_pred, dropout_column)
-    
     train_df = pd.read_csv(synth_data_dir_train, sep=train_sep, engine='python')
-    pred_df = pd.read_csv(synth_data_dir_pred, sep=pred_sep, engine='python')
     data_type = "synthetische"
 
 train_cleaned = basic_cleaning(train_df)
-pred_cleaned = basic_cleaning(pred_df)
+# Create a copy of train_cleaned for prediction data (needed for processing functions)
+pred_cleaned = train_cleaned.copy()
 train_cleaned, pred_cleaned = remove_single_value_columns(train_cleaned, pred_cleaned)
 train_processed, pred_processed = convert_categorical_to_dummies(train_cleaned, pred_cleaned, dropout_column, separator)
 train_df_sdd, pred_df_sdd = standardize_dataset(train_processed, pred_processed, dropout_column, separator)
@@ -386,15 +381,15 @@ print("""
 #| label: missing-analysis 1
 #| output: asis
 
-# Analyze missing data using helper function
-missing_summary, total_missing, total_rows, total_cols, missing_cols = analyze_missing_data(train_processed)
+# Analyze missing data using helper function (using raw data for transparency)
+missing_summary, total_missing, total_rows, total_cols, missing_cols = analyze_missing_data(train_df)
 
 # Print summary
 print(f"- Totaal aantal rijen: {total_rows:,}")
 print(f"- Totaal aantal kolommen: {total_cols}")
 print(f"- Totaal aantal missing values: {total_missing:,}")
 print(f"- Aantal kolommen met missing values: {missing_cols}")
-print(f"- Percentage rijen met minstens één missing value: {(train_processed.isnull().any(axis=1).sum() / total_rows * 100):.1f}%\n")
+print(f"- Percentage rijen met minstens één missing value: {(train_df.isnull().any(axis=1).sum() / total_rows * 100):.1f}%\n")
 
 ```
 
@@ -422,9 +417,9 @@ else:
 #| fig-cap: "Heatmap van missing values in de dataset"
 #| fig-height: 8
 
-# Create a heatmap of missing values
+# Create a heatmap of missing values (using raw data for transparency)
 fig, ax = plt.subplots(figsize=(12, 8))
-sns.heatmap(train_processed.isnull(), yticklabels=False, cbar=False, cmap='viridis', ax=ax)
+sns.heatmap(train_df.isnull(), yticklabels=False, cbar=False, cmap='viridis', ax=ax)
 ```
 
 # Lasso Features
