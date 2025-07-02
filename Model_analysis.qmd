@@ -92,14 +92,50 @@ plt.rcParams['axes.formatter.limits'] = (-2, 2)
 sns.set_style("whitegrid")
 sns.set_context("notebook", font_scale=1.2)
 
+# Function to detect the correct separator for CSV files
+def detect_separator(file_path, target_column='Dropout'):
+    """
+    Automatically detect the separator used in a CSV file.
+    
+    Parameters:
+        file_path: Path to the CSV file
+        target_column: Name of the target column to look for
+        
+    Returns:
+        The detected separator (comma, tab, semicolon, etc.)
+    """
+    separators = [',', '\t', ';', '|']
+    
+    for sep in separators:
+        try:
+            # Read first few lines to test
+            df_sample = pd.read_csv(file_path, sep=sep, nrows=5, engine='python')
+            
+            # Check if parsing was successful and contains target column
+            if len(df_sample.columns) > 1 and target_column in df_sample.columns:
+                return sep
+        except Exception as e:
+            continue
+    
+    # Fallback to comma if nothing works
+    return ','
+
 # Data loading: use user data if present, otherwise use synthetic data
 if os.path.exists(user_data_dir_train) and os.path.exists(user_data_dir_pred):
-    train_df = pd.read_csv(user_data_dir_train, sep=separator, engine='python')
-    pred_df = pd.read_csv(user_data_dir_pred, sep=separator, engine='python')
+    # Detect separators for user data
+    train_sep = detect_separator(user_data_dir_train, dropout_column)
+    pred_sep = detect_separator(user_data_dir_pred, dropout_column)
+    
+    train_df = pd.read_csv(user_data_dir_train, sep=train_sep, engine='python')
+    pred_df = pd.read_csv(user_data_dir_pred, sep=pred_sep, engine='python')
     data_type = "instelling"
 else:
-    train_df = pd.read_csv(synth_data_dir_train, sep=separator, engine='python')
-    pred_df = pd.read_csv(synth_data_dir_pred, sep=separator, engine='python')
+    # Detect separators for synthetic data
+    train_sep = detect_separator(synth_data_dir_train, dropout_column)
+    pred_sep = detect_separator(synth_data_dir_pred, dropout_column)
+    
+    train_df = pd.read_csv(synth_data_dir_train, sep=train_sep, engine='python')
+    pred_df = pd.read_csv(synth_data_dir_pred, sep=pred_sep, engine='python')
     data_type = "synthetische"
 
 train_cleaned = basic_cleaning(train_df)
