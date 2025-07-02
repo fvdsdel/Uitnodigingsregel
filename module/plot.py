@@ -122,10 +122,24 @@ def generate_precision_plot(validation_data, rf_model, lasso_model, svm_model, d
     # Get dropout column from settings
     dropout_col = settings.get('dropout_column', 'Dropout')
     
+    # Function to detect separator for CSV files
+    def detect_separator(file_path, target_column='Dropout'):
+        separators = [',', '\t', ';', '|']
+        for sep in separators:
+            try:
+                df_sample = pd.read_csv(file_path, sep=sep, nrows=5, engine='python')
+                if len(df_sample.columns) > 1 and target_column in df_sample.columns:
+                    return sep
+            except Exception as e:
+                continue
+        return ','
+    
     # For Lasso and SVM, we need to use scaled data
-    # Try to load scaled data, but if not available, use the provided validation data
+    # Try to load scaled data with automatic separator detection, but if not available, use the provided validation data
     try:
-        train_data_scaled = pd.read_csv('data/interim/train_data_standardized.csv', sep=',')
+        # Detect the correct separator for the standardized data file
+        scaled_data_sep = detect_separator('data/interim/train_data_standardized.csv', dropout_col)
+        train_data_scaled = pd.read_csv('data/interim/train_data_standardized.csv', sep=scaled_data_sep, engine='python')
         # Use scaled data for Lasso and SVM, unscaled for RF
         rf_results = prepare_model_predictions(validation_data, rf_model, "rf")
         lasso_results = prepare_model_predictions(train_data_scaled, lasso_model, "lasso")
@@ -174,10 +188,24 @@ def generate_sensitivity_plot(validation_data, rf_model, lasso_model, svm_model,
     # Get dropout column from settings
     dropout_col = settings.get('dropout_column', 'Dropout')
     
+    # Function to detect separator for CSV files
+    def detect_separator(file_path, target_column='Dropout'):
+        separators = [',', '\t', ';', '|']
+        for sep in separators:
+            try:
+                df_sample = pd.read_csv(file_path, sep=sep, nrows=5, engine='python')
+                if len(df_sample.columns) > 1 and target_column in df_sample.columns:
+                    return sep
+            except Exception as e:
+                continue
+        return ','
+    
     # For Lasso and SVM, we need to use scaled data
-    # Try to load scaled data, but if not available, use the provided validation data
+    # Try to load scaled data with automatic separator detection, but if not available, use the provided validation data
     try:
-        train_data_scaled = pd.read_csv('data/interim/train_data_standardized.csv', sep=',')
+        # Detect the correct separator for the standardized data file
+        scaled_data_sep = detect_separator('data/interim/train_data_standardized.csv', dropout_col)
+        train_data_scaled = pd.read_csv('data/interim/train_data_standardized.csv', sep=scaled_data_sep, engine='python')
         # Use scaled data for Lasso and SVM, unscaled for RF
         rf_results = prepare_model_predictions(validation_data, rf_model, "rf")
         lasso_results = prepare_model_predictions(train_data_scaled, lasso_model, "lasso")
