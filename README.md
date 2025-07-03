@@ -90,6 +90,9 @@ cd Uitnodigingsregel
 3. Run uv:
 
 **Locally**
+```
+uv sync
+```
 
 ```
 uv run --with jupyter jupyter lab
@@ -101,6 +104,16 @@ uv run --with jupyter jupyter lab --LabApp.token='' --allow-root
 ```
 
 ## Use of program
+
+### 1 Data quality
+You can use the Model_analys.qmd file to create a html report to see if it will be appropriate to use this method with your data.
+This can be create directly in Windows PowerShell with the lines below.
+```
+uv sync
+uv run quarto render Model_analysis.qmd
+```
+
+### 2 Make predictions
 You can run the program using either the Python script (main.py) or the Jupyter Notebook (main.ipynb) in case of uv.
 
 
