@@ -106,12 +106,13 @@ uv run --with jupyter jupyter lab --LabApp.token='' --allow-root
 ## Use of program
 
 ### 1 Data quality
-You can use the Model_analys.qmd file to create a html report to see if it will be appropriate to use this method with your data.
-This can be create directly in Windows PowerShell with the lines below.
+You can use the Model_analys.qmd file to create an HTML report to see if it will be appropriate to use this method with your data. 
+This can be created directly in Windows PowerShell with the commands below.
 ```
 uv sync
 uv run quarto render Model_analysis.qmd
 ```
+The HTML output file is created in the same folder as the analysis file.
 
 ### 2 Make predictions
 You can run the program using either the Python script (main.py) or the Jupyter Notebook (main.ipynb) in case of uv.
