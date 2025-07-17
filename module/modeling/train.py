@@ -4,53 +4,58 @@ from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 import joblib
 
-# Random Forest Regressor model for training 
-def randomforestregressormodel_train(dataset_train, random_seed, dropout_column, rf_parameters):
+def save_model(model, model_name):
+    """Saves the model to a file."""
+    joblib.dump(model, f'models/{model_name}.joblib')
+
+def prep_data(dataset_train,dropout_column):
+    """Prepares the training data by dropping the dropout column."""
     X = dataset_train.drop(dropout_column, axis=1).values
     y = dataset_train[dropout_column].values
-    rf = RandomForestRegressor(random_state=random_seed)
-    
-    # Hyperparameter tuning using gridsearchCV
-    grid_model = GridSearchCV(rf, rf_parameters, refit = True, n_jobs = -1, verbose = 2)
-    grid_model.fit(X, y) 
-    best_params = grid_model.best_params_
-    best_rf_model = RandomForestRegressor(**best_params)
-    best_rf_model.fit(X, y) 
-    
-    # Save model 
-    joblib.dump(best_rf_model, 'models/random_forest_regressor.joblib')
-    return best_rf_model
+    return X, y
 
-# lasso regression model for training 
-def lassoregressionmodel_train (dataset_train_sdd, random_seed, dropout_column, alpha_range): 
-    X = dataset_train_sdd.drop(dropout_column, axis=1).values
-    y = dataset_train_sdd[dropout_column].values
-    lasso_model = Lasso(random_state = random_seed)
-    param = {'alpha':alpha_range}
-    
-    # Hyperparameter tuning using gridsearchCV
-    lasso_grid_search = GridSearchCV(lasso_model, param_grid = param, refit = False, cv=5, n_jobs = -1, verbose = 2)
-    lasso_grid_search.fit(X, y)
-    best_params = lasso_grid_search.best_params_
-    best_lasso_model = Lasso(**best_params)
-    best_lasso_model.fit(X, y) 
-    
-    # Save model 
-    joblib.dump(best_lasso_model, 'models/lasso_regression.joblib')
-    return best_lasso_model
+def run_grid_search(estimator, X, y, model_params, grid_kwargs) -> GridSearchCV:
+    """Runs a grid search to find the best hyperparameters for the model."""
+    grid_search = GridSearchCV(estimator, model_params, **grid_kwargs)
+    grid_search.fit(X, y)
+    return grid_search
 
-# Support vector machine model for training 
-def supportvectormachinemodel_train(dataset_train_sdd, random_seed, dropout_column, svm_parameters):
-    X = dataset_train_sdd.drop(dropout_column, axis=1).values
-    y = dataset_train_sdd[dropout_column].values
-    
-    # Hyperparameter tuning using gridsearchCV 
-    svm_gridsearch = GridSearchCV(SVC(random_state=random_seed, probability = True), svm_parameters, refit = False, n_jobs = -1, verbose = 2) 
-    svm_gridsearch.fit(X, y)
-    best_params = svm_gridsearch.best_params_
-    best_svm_model = SVC(**best_params, probability = True)
-    best_svm_model.fit(X, y) 
 
-    # Save model 
-    joblib.dump(best_svm_model, 'models/support_vector_machine.joblib')
-    return best_svm_model
+def randomforestregressormodel_train(dataset_train, random_seed, dropout_column, model_params):
+    """Trains a Random Forest Regressor model."""
+    X,y = prep_data(dataset_train, dropout_column)
+    estimator_class = RandomForestRegressor
+    estimator = estimator_class(random_state=random_seed)
+    grid_kwargs = {'refit':True,'n_jobs': -1, 'verbose': 2}
+    grid_search = run_grid_search(estimator, X, y, model_params, grid_kwargs)
+    best_model = estimator_class(**grid_search.best_params_)
+    best_model.fit(X, y) 
+    save_model(best_model, 'random_forest_regressor')
+    return best_model
+
+
+def lassoregressionmodel_train (dataset_train_sdd, random_seed, dropout_column, alpha_range):
+    """Trains a Lasso regression model."""
+    X, y = prep_data(dataset_train_sdd, dropout_column)
+    estimator_class = Lasso
+    estimator = estimator_class(random_state = random_seed)
+    model_params = {'alpha':alpha_range}
+    grid_kwargs = {'refit': False, 'cv': 5, 'n_jobs': -1, 'verbose': 2}
+    grid_search = run_grid_search(estimator, X, y, model_params, grid_kwargs)
+    best_model = estimator_class(**grid_search.best_params_)
+    best_model.fit(X, y) 
+    save_model(best_model, 'lasso_regression')
+    return best_model
+
+
+def supportvectormachinemodel_train(dataset_train_sdd, random_seed, dropout_column, model_params):
+    """Trains a Support Vector Machine model."""
+    X,y = prep_data(dataset_train_sdd, dropout_column)
+    estimator_class = SVC
+    estimator = estimator_class(random_state=random_seed, probability = True)
+    grid_kwargs = {'refit': False, 'n_jobs': -1, 'verbose': 2}
+    grid_search = run_grid_search(estimator, X, y, model_params, grid_kwargs)
+    best_model = estimator_class(**grid_search.best_params_, probability = True)
+    best_model.fit(X, y) 
+    save_model(best_model, 'support_vector_machine')
+    return best_model
