@@ -1,5 +1,5 @@
 default_settings:
-  retrain_models: True
+  retrain_models: False
   separator: "\t"
   dropout_column: 'Dropout'
   studentnumber_column: 'Studentnummer'

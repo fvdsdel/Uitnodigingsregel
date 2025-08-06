@@ -9,6 +9,9 @@
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+./module/data_loader/oracle/instantclient_23_8
+instantclient_23_8/
+
 *.py[cod]
 *$py.class
 
