@@ -30,7 +30,7 @@ default_settings:
     kernel: ['rbf']
 
 custom_settings:
-  retrain_models: False
+  retrain_models: True
   separator: ','
   dropout_column: 'dropout'
   studentnumber_column: 'STUDENTNUMMER'
