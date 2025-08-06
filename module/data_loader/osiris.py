@@ -53,7 +53,7 @@ def fill_empty_cols(df:pd.DataFrame, cols:list) -> pd.DataFrame:
     return df
 
 class OsirisData:
-    def __init__(self,cwd=DEFAULT_CWDIR,env_path=None):
+    def __init__(self,env_path=None,cwd=DEFAULT_CWDIR):
         if not env_path:
             env_path=cwd
         if isinstance(env_path,str):
