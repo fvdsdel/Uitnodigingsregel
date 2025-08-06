@@ -127,6 +127,7 @@ class OsirisData:
         cols = [x for x in output_cols if x in df.columns]
         df = df[cols]
         df["dropout"] = df["GEEN_UITVAL"].apply(lambda x: 0 if x==1 else 1)
+        df.drop(columns=["GEEN_UITVAL"],inplace=True)
         return df
 
 if __name__ == "__main__":

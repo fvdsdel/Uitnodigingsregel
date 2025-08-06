@@ -30,10 +30,14 @@ def _train_model(estimator_class:BaseEstimator, dataset_train:DataFrame, random_
     best_model.fit(X, y) 
     return best_model
 
-def train_model(esimator_code, dataset_train:DataFrame, random_seed:int,target_column:str,model_params:dict):
+def train_model(esimator_code, dataset_train:DataFrame, random_seed:int,target_column:str,model_params:dict,student_col:str="STUDENTNUMMER"):
     """Train model with best params trough gridsearch Return refitted model"""
     if not (_est:=ESTIMATORS.get(esimator_code,None)):
         raise ValueError(f"Estimator code '{esimator_code}' is not recognized. Available options are: {list(ESTIMATORS.keys())}")
+    if student_col in dataset_train.columns:
+        dataset_train.drop(columns=[student_col],inplace=True)
+    print(f"Training {_est["NAME"]} with features:")
+    print(dataset_train.columns)
     best_model = _train_model(_est["CLS"],dataset_train,random_seed,target_column=target_column,model_params=model_params,grid_kwargs=_est["GKWARGS"],probability=_est.get("PROB", None)) 
     joblib.dump(best_model, f'models/{_est["NAME"]}.joblib')
     return best_model

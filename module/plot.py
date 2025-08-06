@@ -6,7 +6,7 @@ import yaml
 from sklearn.calibration import CalibratedClassifierCV
 
 # Load default settings
-def load_settings(config_file='config.yaml', settings_type='default'):
+def load_settings(config_file='config.yaml', settings_type='custom'):
     """Load settings from YAML config file"""
     with open(config_file, 'r') as file:
         config = yaml.safe_load(file)
@@ -19,6 +19,8 @@ def load_settings(config_file='config.yaml', settings_type='default'):
     return settings
 
 settings = load_settings()
+_dropout_col = settings.get('dropout_column', 'dropout')
+
 
 def dynamische_evaluatie(model="lasso", data=None):
     """"
@@ -38,17 +40,17 @@ def dynamische_evaluatie(model="lasso", data=None):
         data, df met de totaal correct voorspelde uitvalwaarden en de precisiewaarden
     """
     # Get dropout column from settings
-    dropout_col = settings.get('dropout_column', 'Dropout')
+    
     
     # Bepaal correct voorspelde waarde door telkens een leerling te identificeren als "risico op dropout",
     # als de leerling dan geïdentificeerd is en ook daadwerkelijk een dropout is, dan is het dus een correcte voorspelling
-    data["{}1".format(model)] = np.where(((data[dropout_col]==1) & (data["yhat2_rank"] <= data["i"])), 1, 0)
+    data["{}1".format(model)] = np.where(((data[_dropout_col]==1) & (data["yhat2_rank"] <= data["i"])), 1, 0)
 
     # Bepaal dynamisch: de voorspelde kans op uitval wordt geordend van hoog naar laag (yhat2_rank). Obv deze ordening worden mensen uitgenodigd.
     # Dus eerst wordt degene bovenaan de lijst uitgenodigd, als hij / zij dan daadwerkelijk is uitgevallen, dan is er een precision van 100%
     # omdat hij / zij gedetecteerd is als "risico op uitval" en dan ook echt is uitgevallen. Vervolgens wordt de volgende in de lijst uitgenodigd en dan degene daarna.
     # Als iemand wordt uitgenodigd, maar niet uitgevallen blijkt te zijn, dan daalt de precision.
-    totale_uitval = len(data[data[dropout_col] == 1])
+    totale_uitval = len(data[data[_dropout_col] == 1])
     for i in range(0, len(data)):
         if i < 1:
             data.loc[i, "totalcorrect{}1".format(model)] = data.loc[i, "{}1".format(model)]
@@ -123,7 +125,7 @@ def generate_precision_plot(validation_data, rf_model, lasso_model, svm_model, d
     dropout_col = settings.get('dropout_column', 'Dropout')
     
     # Function to detect separator for CSV files
-    def detect_separator(file_path, target_column='Dropout'):
+    def detect_separator(file_path, target_column=_dropout_col):
         separators = [',', '\t', ';', '|']
         for sep in separators:
             try:
@@ -189,7 +191,7 @@ def generate_sensitivity_plot(validation_data, rf_model, lasso_model, svm_model,
     dropout_col = settings.get('dropout_column', 'Dropout')
     
     # Function to detect separator for CSV files
-    def detect_separator(file_path, target_column='Dropout'):
+    def detect_separator(file_path, target_column=_dropout_col):
         separators = [',', '\t', ';', '|']
         for sep in separators:
             try:
@@ -342,16 +344,16 @@ def save_model_metrics(train_data, train_data_scaled, validation_data, validatio
     
     # Prepare data for each model
     # Random Forest uses unscaled data
-    X_train_rf = train_data.drop('Dropout', axis=1)
-    y_train_rf = train_data['Dropout']
-    X_val_rf = validation_data.drop('Dropout', axis=1)
-    y_val_rf = validation_data['Dropout']
+    X_train_rf = train_data.drop(_dropout_col, axis=1)
+    y_train_rf = train_data[_dropout_col]
+    X_val_rf = validation_data.drop(_dropout_col, axis=1)
+    y_val_rf = validation_data[_dropout_col]
     
     # Lasso and SVM use scaled data
-    X_train_scaled = train_data_scaled.drop('Dropout', axis=1)
-    y_train_scaled = train_data_scaled['Dropout']
-    X_val_scaled = validation_data_scaled.drop('Dropout', axis=1)
-    y_val_scaled = validation_data_scaled['Dropout']
+    X_train_scaled = train_data_scaled.drop(_dropout_col, axis=1)
+    y_train_scaled = train_data_scaled[_dropout_col]
+    X_val_scaled = validation_data_scaled.drop(_dropout_col, axis=1)
+    y_val_scaled = validation_data_scaled[_dropout_col]
     
     # Calculate metrics for each model using appropriate data
     models = {
@@ -461,12 +463,12 @@ def save_threshold_analysis(train_data, train_data_scaled, validation_data, vali
     
     # Prepare data for each model
     # Random Forest uses unscaled data
-    X_val_rf = validation_data.drop('Dropout', axis=1)
-    y_val_rf = validation_data['Dropout']
+    X_val_rf = validation_data.drop(_dropout_col, axis=1)
+    y_val_rf = validation_data[_dropout_col]
     
     # Lasso and SVM use scaled data
-    X_val_scaled = validation_data_scaled.drop('Dropout', axis=1)
-    y_val_scaled = validation_data_scaled['Dropout']
+    X_val_scaled = validation_data_scaled.drop(_dropout_col, axis=1)
+    y_val_scaled = validation_data_scaled[_dropout_col]
     
     # Get predictions for each model using appropriate data
     models = {
@@ -575,8 +577,8 @@ def generate_stoplight_evaluation(model_predictions, invite_pct=20):
     # Get predictions for each model with correct method
     predictions = {}
     for model_name, (data, model, needs_scaling) in model_predictions.items():
-        X = data.drop('Dropout', axis=1)
-        y = data['Dropout']
+        X = data.drop(_dropout_col, axis=1)
+        y = data[_dropout_col]
         
         try:
             # Handle different model types correctly
@@ -1057,7 +1059,7 @@ def parse_model_metrics(metrics_file_path='reports/model_evaluation.txt'):
     
     return metrics_data
 
-def display_top_features(model, data, model_type, n_features=5, dropout_column='Dropout'):
+def display_top_features(model, data, model_type, n_features=5, dropout_column=_dropout_col):
     """
     Display top features for any model type.
     

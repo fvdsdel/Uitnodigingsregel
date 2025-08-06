@@ -19,9 +19,9 @@ def _predict(estimator, X_pred):
 def predict(estimator,pred_df,pred_df2, dropout_column, studentnumber_column):
     """Predict using the specified estimator."""
     if dropout_column in pred_df.columns:
-        X_pred = pred_df.drop(dropout_column, axis=1).values
+        X_pred = pred_df.drop(columns=[studentnumber_column,dropout_column], axis=1).values
     else:
-        X_pred = pred_df.values
+        X_pred = pred_df.drop(columns=[studentnumber_column], axis=1).values
     # Save the studentnumbers so they can be matched with the predictions after the model is done
     X_pred_studentnumber = pred_df2[[studentnumber_column]]
     
