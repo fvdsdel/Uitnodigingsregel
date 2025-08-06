@@ -43,9 +43,9 @@ def randomforestregressormodel_train(dataset_train, random_seed, dropout_column,
     best_model = train_model("RF",dataset_train,random_seed,target_column=dropout_column,model_params=model_params)
     return best_model
 
-def lassoregressionmodel_train (dataset_train, random_seed, dropout_column, alpha_range):
+def lassoregressionmodel_train (dataset_train, random_seed, dropout_column, model_params):
     """Trains a Lasso regression model."""
-    model_params = {'alpha':alpha_range}
+    # model_params = {'alpha':alpha_range}
     best_model = train_model("LASSO",dataset_train,random_seed,target_column=dropout_column,model_params=model_params)
     return best_model
 
