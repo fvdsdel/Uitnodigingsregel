@@ -1,0 +1,54 @@
+Model Evaluation Metrics
+================================================================================
+
+Random Forest Metrics:
+----------------------------------------
+R² (Training): 0.040
+R² (Validation): 0.024
+MSE (Training): 0.239
+MSE (Validation): 0.243
+Precision: 0.600
+Sensitivity: 0.192
+
+Confusion Matrix:
+True Positives: 15
+False Positives: 10
+False Negatives: 63
+True Negatives: 60
+
+================================================================================
+
+Lasso Metrics:
+----------------------------------------
+R² (Training): -0.001
+R² (Validation): -0.009
+MSE (Training): 0.249
+MSE (Validation): 0.252
+Precision: 0.000
+Sensitivity: 0.000
+
+Confusion Matrix:
+True Positives: 0
+False Positives: 0
+False Negatives: 78
+True Negatives: 70
+
+================================================================================
+
+SVM Metrics:
+----------------------------------------
+R² (Training): -0.594
+R² (Validation): -0.897
+MSE (Training): 0.397
+MSE (Validation): 0.473
+Precision: 0.682
+Sensitivity: 0.192
+
+Confusion Matrix:
+True Positives: 15
+False Positives: 7
+False Negatives: 63
+True Negatives: 63
+
+================================================================================
+

@@ -7,9 +7,11 @@ from .models import ESTIMATORS
 
 def prep_data(dataset_train,dropout_column):
     """Prepares the training data by dropping the dropout column."""
-    X = dataset_train.drop(dropout_column, axis=1).values
-    y = dataset_train[dropout_column].values
-    return X, y
+    X = dataset_train.drop(dropout_column, axis=1)
+    y = dataset_train[dropout_column]
+    # print(X.columns)
+    # print(f"Target: {dropout_column}")
+    return X.values, y.values
 
 def run_grid_search(estimator, X, y, model_params, grid_kwargs) -> GridSearchCV:
     """Runs a grid search to find the best hyperparameters for the model."""
@@ -36,8 +38,8 @@ def train_model(esimator_code, dataset_train:DataFrame, random_seed:int,target_c
         raise ValueError(f"Estimator code '{esimator_code}' is not recognized. Available options are: {list(ESTIMATORS.keys())}")
     if student_col in dataset_train.columns:
         dataset_train.drop(columns=[student_col],inplace=True)
-    print(f"Training {_est["NAME"]} with features:")
-    print(dataset_train.columns)
+    print(f"Training {_est["NAME"]}")
+    
     best_model = _train_model(_est["CLS"],dataset_train,random_seed,target_column=target_column,model_params=model_params,grid_kwargs=_est["GKWARGS"],probability=_est.get("PROB", None)) 
     joblib.dump(best_model, f'models/{_est["NAME"]}.joblib')
     return best_model

@@ -175,3 +175,4 @@ data/interim/pred_data_standardized.csv
 data/interim/train_data_standardized.csv
 data/processed/pred_processed.csv
 data/processed/train_processed.csv
+reports/figures/model_usability_dashboard_plot.png
