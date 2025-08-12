@@ -4,17 +4,17 @@ Model Evaluation Metrics
 Random Forest Metrics:
 ----------------------------------------
 R² (Training): 0.040
-R² (Validation): 0.024
+R² (Validation): 0.017
 MSE (Training): 0.239
-MSE (Validation): 0.243
-Precision: 0.600
-Sensitivity: 0.192
+MSE (Validation): 0.245
+Precision: 0.593
+Sensitivity: 0.205
 
 Confusion Matrix:
-True Positives: 15
-False Positives: 10
-False Negatives: 63
-True Negatives: 60
+True Positives: 16
+False Positives: 11
+False Negatives: 62
+True Negatives: 59
 
 ================================================================================
 
@@ -37,18 +37,18 @@ True Negatives: 70
 
 SVM Metrics:
 ----------------------------------------
-R² (Training): -0.594
-R² (Validation): -0.897
-MSE (Training): 0.397
-MSE (Validation): 0.473
-Precision: 0.682
-Sensitivity: 0.192
+R² (Training): -0.642
+R² (Validation): -0.735
+MSE (Training): 0.409
+MSE (Validation): 0.432
+Precision: 0.719
+Sensitivity: 0.295
 
 Confusion Matrix:
-True Positives: 15
-False Positives: 7
-False Negatives: 63
-True Negatives: 63
+True Positives: 23
+False Positives: 9
+False Negatives: 55
+True Negatives: 61
 
 ================================================================================
 

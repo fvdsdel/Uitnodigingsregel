@@ -176,3 +176,7 @@ data/interim/train_data_standardized.csv
 data/processed/pred_processed.csv
 data/processed/train_processed.csv
 reports/figures/model_usability_dashboard_plot.png
+*.joblib
+models/lasso_regression.joblib
+models/random_forest_regressor.joblib
+models/support_vector_machine.joblib
